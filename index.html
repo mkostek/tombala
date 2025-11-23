@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Tombala</title>
+
+<style>
+    .num { display:inline-block; width:40px; height:40px; text-align:center; 
+           border:1px solid #333; margin:3px; line-height:40px; }
+    .hit { background:green; color:white; }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+<h1>Tombala – Oyuncu Ekranı</h1>
+
+<div id="kart"></div>
+
+<h2>Çekilen Sayılar</h2>
+<div id="cekilenler"></div>
+
+<script>
+let params = new URLSearchParams(document.location.search);
+let oyuncuId = params.get("i"); // Cihaz numarası
+
+function yenile() {
+    $.get("kart.php?id=" + oyuncuId, function (data) {
+
+        let d = JSON.parse(data);
+
+        // çekilenler
+        $("#cekilenler").html(
+            d.cekilen.join(", ")
+        );
+
+        // kart
+        let html = "";
+        d.kart.forEach(n => {
+            let cls = d.eslesen.includes(n) ? "num hit" : "num";
+            html += `<div class="${cls}">${n}</div>`;
+        });
+
+        $("#kart").html(html);
+    });
+}
+
+setInterval(yenile, 2000);
+yenile();
+</script>
+
+</body>
+</html>

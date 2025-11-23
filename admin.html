@@ -1,0 +1,30 @@
+<button id="btn" >Baslat ya da durdur</button>
+<div id="sonuc"></div>
+
+<script>
+
+let btn = document.querySelector('#btn');
+  //  body = document.querySelector('body');
+
+function ChangeBackground() { 
+    if (btn.classList.contains('button-style')) { 
+        cek(); //toggle exit condition
+ setTimeout(ChangeBackground, 2000);
+    }
+}
+
+    btn.addEventListener('click', function(){
+  this.classList.toggle('button-style'); //toggle exit condition
+  ChangeBackground(); //start recursion
+});
+function cek(){
+    fetch("server.php?cek=1")
+        .then(r => r.json())
+        .then(d => {
+            document.getElementById("sonuc").innerHTML =
+               "Yeni sayı: " + d.new;
+        });
+}
+
+
+</script>
